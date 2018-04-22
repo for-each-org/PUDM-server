@@ -1,5 +1,6 @@
-var {Node, PriorityQueue} = require('../priority_queue');
-var {expect, assert} = require('chai');
+var PriorityQueue       = require('../priority_queue');
+var Node                = require('../priority_queue/Node');
+var {expect, assert}    = require('chai');
 
 describe('Node', function() {
 
