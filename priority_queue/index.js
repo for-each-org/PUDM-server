@@ -5,14 +5,24 @@ class Node {
     }
 
     set next(node) {
-        if(node instanceof Node) {
-            this.next = node;
+        if(!node || node instanceof Node) {
+            this._next = node;
+            return;
         }
+        
         throw "given node is not of type NODE";
     }
 
     get next() {
-        return this.next;
+        return this._next;
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    set value(value) {
+        this._value = value;
     }
 }
 
@@ -28,16 +38,18 @@ class Node {
  */
 
 class PriorityQueue {
-    constructor(comparator, unique_id) {
+    constructor(comparator, unique_id, val) {
         
-        if(!comparator || !unique_id || !(typeof comparator == "function") || !(typeof unique_id == "string")) {
+        if( !comparator || 
+            !unique_id || 
+            !(typeof comparator == "function") || 
+            !(typeof unique_id == "string")) {
             throw "PriorityQueue constructor requires parameters (function, string)";
         }
 
         this.head = new Node();
         this.id = unique_id;
         this.comparator = comparator;
-
     }
 
     enqueue(value) {
@@ -46,43 +58,45 @@ class PriorityQueue {
         let node = this.head;
 
         while(node.next) {
-            if(comparator(node.next.value, value) <= 0) {
+            if(this.comparator(node.next.value, value) > 0) {
                 new_node.next = node.next;
-                node.next = new_node;
+                node.next  = new_node;
                 return;
             }
+            node = node.next;
         }
 
-        new_node.next = node.next;
         node.next = new_node;
     }
 
     dequeue() {
+        if(!this.head.next) {
+            return null;
+        }
         const top = this.head.next;
         this.head.next = top.next;
 
         return top.value;
     }
 
-    update(id, value) {
-        let node = this.head.next;
+    update(value) {
+        let node = this.head;
 
-        while(node) {
-            if(node.value[this.id] === id) {
-                node.value = value;
-                return;
+        //remove node;
+        while(node.next) {
+            if(node.next.value[this.id] === value[this.id]) {
+                node.next = node.next.next;  
+                break;
             }
             node = node.next;
         }
+
+        //reinsert it into the queue
+        this.enqueue(value);
     }
 
     delete(id) {
-        let node = this.head.next;
-        
-        if(node.value[this.id] === id) {
-            this.head.next = node.next;
-            return;
-        }
+        let node = this.head;
         
         while(node.next) {
             if(node.next.value[this.id] === id) {
@@ -94,6 +108,15 @@ class PriorityQueue {
     }
 
     peek() {
+        if(!this.head.next) {
+            return null;
+        }
         return this.head.next.value;
     }
 }
+
+
+module.exports = {
+    Node: Node,
+    PriorityQueue: PriorityQueue
+};
