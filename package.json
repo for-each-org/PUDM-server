@@ -1,0 +1,28 @@
+{
+  "name": "pudm-server",
+  "version": "1.0.0",
+  "description": "Node.js Server for PUDM iOS App",
+  "main": "server.js",
+  "directories": {
+    "test": "mocha"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/for-each-org/PUDM-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/for-each-org/PUDM-server/issues"
+  },
+  "homepage": "https://github.com/for-each-org/PUDM-server#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
+  }
+}
