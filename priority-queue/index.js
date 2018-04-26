@@ -1,14 +1,6 @@
 const Node = require('./Node');
 
 /**
- * A function that creates a new notification handler
- */
-module.exports = function createPriorityQueue(comparator, unique_id) {
-    return new PriorityQueue(comparator, unique_id);
-}
-
-
-/**
  * Creates a priority queue based on the comparator function given.
  * the unique_id parameter given refers to the attribute of the value that acts as a unique id
  * 
@@ -94,4 +86,12 @@ class PriorityQueue {
         }
         return this.head.next.value;
     }
+}
+
+
+/**
+ * A function that creates a new notification handler
+ */
+module.exports = function createPriorityQueue(comparator, unique_id) {
+    return new PriorityQueue(comparator, unique_id);
 }
