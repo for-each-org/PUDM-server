@@ -1,6 +1,6 @@
-var PriorityQueue       = require('../priority_queue');
-var Node                = require('../priority_queue/Node');
-var {expect, assert}    = require('chai');
+var createPriorityQueue     = require('../priority-queue');
+var Node                    = require('../priority-queue/Node');
+var {expect, assert}        = require('chai');
 
 describe('Node', function() {
 
@@ -56,18 +56,18 @@ describe('PriorityQueue', function() {
 
     describe('# Constructor', function() {
         it('should create an object of type PriorityQueue', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
         });
 
         it('should throw error on incorrect comparator parameter', function() {
             expect(() => {
-                const pq = new PriorityQueue(1, id)
+                const pq = createPriorityQueue(1, id)
             }).to.throw();
         });
         
         it('should throw error on incorrect id parameter', function() {
             expect(() => {
-                const node = new PriorityQueue(func, 1);
+                const node = createPriorityQueue(func, 1);
             }).to.throw();
         });
     });
@@ -76,14 +76,14 @@ describe('PriorityQueue', function() {
         const obj = {id: 0, val: 1};
 
         it('should insert a value into the priority queue', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             
             pq.enqueue(obj);
             expect(pq.dequeue()).to.deep.equal(obj);
         });
 
         it('should insert values in the queue using the comparator', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj1 = {id: 0, val: 0}
             const obj2 = {id: 1, val: 1};
             const obj3 = {id: 2, val: 2};
@@ -101,7 +101,7 @@ describe('PriorityQueue', function() {
         });
 
         it('should return null when dequeued on empty queue', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
 
             expect(pq.dequeue()).to.equal(null);
         })
@@ -109,14 +109,14 @@ describe('PriorityQueue', function() {
 
     describe('# Peek', function() {
         it('should return the value at the top', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj = {id: 0, val: 1};
 
             pq.enqueue(obj);
             expect(pq.peek()).to.deep.equal(pq.dequeue());
         });
         it('should return the null for empty queue', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             expect(pq.peek()).to.equal(null);
         });
     });
@@ -125,7 +125,7 @@ describe('PriorityQueue', function() {
         const obj = {id: 0, val: 1};
 
         it("should update the value of an item", function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const up_obj = {id: obj.id, val: 2};
 
             pq.enqueue(obj);
@@ -134,7 +134,7 @@ describe('PriorityQueue', function() {
         });
 
         it("should update the value of correct item", function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj1 = {id: 0, val: 1};
             const obj2 = {id: 1, val: 2};
             const obj3 = {id: 2, val: 4};
@@ -152,7 +152,7 @@ describe('PriorityQueue', function() {
         });
 
         it("should insert updated element in correct position", function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj1 = {id: 0, val: 1};
             const obj2 = {id: 1, val: 2};
             const obj3 = {id: 2, val: 4};
@@ -173,7 +173,7 @@ describe('PriorityQueue', function() {
     describe('# Delete', function() {
 
         it('should delete value', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj = {id: 0, val: 1};
 
             pq.enqueue(obj);
@@ -182,7 +182,7 @@ describe('PriorityQueue', function() {
         });
         
         it('should delete value with given id and nothing else', function() {
-            const pq = new PriorityQueue(func, id);
+            const pq = createPriorityQueue(func, id);
             const obj1 = {id: 0, val: 1};
             const obj2 = {id: 1, val: 2};
 

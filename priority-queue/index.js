@@ -1,6 +1,5 @@
 const Node = require('./Node');
 
-
 /**
  * Creates a priority queue based on the comparator function given.
  * the unique_id parameter given refers to the attribute of the value that acts as a unique id
@@ -12,7 +11,7 @@ const Node = require('./Node');
  */
 
 class PriorityQueue {
-    constructor(comparator, unique_id, val) {
+    constructor(comparator, unique_id) {
         
         if( !comparator || 
             !unique_id || 
@@ -90,4 +89,9 @@ class PriorityQueue {
 }
 
 
-module.exports = PriorityQueue;
+/**
+ * A function that creates a new notification handler
+ */
+module.exports = function createPriorityQueue(comparator, unique_id) {
+    return new PriorityQueue(comparator, unique_id);
+}
