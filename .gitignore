@@ -1,3 +1,5 @@
+.vscode
+
 # Logs
 logs
 *.log
@@ -59,3 +61,6 @@ typings/
 
 # next.js build output
 .next
+
+# Firebase Private Key
+pudm-server-firebase-adminsdk-fwyrb-8e3d993449.json

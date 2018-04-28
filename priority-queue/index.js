@@ -15,9 +15,9 @@ class PriorityQueue {
         
         if( !comparator || 
             !unique_id || 
-            !(typeof comparator == "function") || 
-            !(typeof unique_id == "string")) {
-            throw "PriorityQueue constructor requires parameters (function, string)";
+            !(typeof comparator == 'function') || 
+            !(typeof unique_id == 'string')) {
+            throw 'PriorityQueue constructor requires parameters (function, string)';
         }
 
         this.head = new Node();
@@ -94,4 +94,4 @@ class PriorityQueue {
  */
 module.exports = function createPriorityQueue(comparator, unique_id) {
     return new PriorityQueue(comparator, unique_id);
-}
+};
