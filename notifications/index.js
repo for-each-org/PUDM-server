@@ -4,71 +4,41 @@ const handler = require('./notification-handler')();
 
 var serviceAccount = require('../pudm-server-firebase-adminsdk-fwyrb-8e3d993449.json');
 
+const INTERVAL = 30 * 1000; // Interval to check for unsent notifications in ms
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://pudm-server.firebaseio.com'
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://pudm-server.firebaseio.com'
 });
 
-
-var notificationsRef = admin.database().ref('notificaitons');
-
-notificationsRef.once('value', (dataSnapshot) => {
-  console.log(snapshot.toJSON());
-});
+var notificationsRef = admin.database().ref('notifications');
 
 notificationsRef.on('child_added', (childSnapshot) => {
-
+    let notif = flatten(childSnapshot.key, childSnapshot.val());
+    handler.addNotifcation(notif);
 });
 
 notificationsRef.on('child_changed', (childSnapshot) => {
-
-});
-
-notificationsRef.on('child_moved', (childSnapshot) => {
-
+    let notif = flatten(childSnapshot.key, childSnapshot.val());
+    handler.updateNotifcation(notif);
 });
 
 notificationsRef.on('child_removed', (oldChildSnapshot) => {
-  var notif = flatten('id', oldChildSnapshot.key, oldChildSnapshot.val());
-  handler.deleteNotification(notif);
+    let notif = flatten(oldChildSnapshot.key, oldChildSnapshot.val());
+    handler.deleteNotification(notif);
 });
 
-var timeout = setInterval(() => {
-  // TODO: check to see if there's notifications to send, then send them
-}, 60000);
+setInterval(() => {
+    // TODO: Create a notification for each device in each group
+    while (handler.canSend()) {
+        const notif = handler.getNotification();
+        console.log('sent! scheduled: ', notif.time, ' actual: ', Math.round(new Date().getTime() / 1000));
+        
+        notificationsRef.child(notif.id).update({status : 1});
+    }
+}, INTERVAL);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function flatten(keyName, keyValue, object) {
-  object[keyName] = keyValue;
-  return object;
+function flatten(keyValue, object) {
+    object.id = keyValue;
+    return object;
 }
